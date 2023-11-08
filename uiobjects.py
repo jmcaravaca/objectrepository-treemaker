@@ -38,5 +38,12 @@ def add_to_db(uischema: UIObjectSchema) -> UIObject:
     uiobj.Type = uischema.Type 
     with session:
         session.add(uiobj)
+        session.commit()
         
-        
+if __name__ == '__main__':
+    logger.debug("Testing...")
+    folderpath = r"TestData\UIObjects"
+    files = find_metadata_files(folderpath)
+    for file in files:
+        schema = generate_schema(file)
+        add_to_db(schema)

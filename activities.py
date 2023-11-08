@@ -1,22 +1,60 @@
+import os
+from schemas import ActivitySchema
+from models import Activity
 from lxml import etree
-import os, json
-
-# Read the XML from the file
-file_path = "Comun\SaveAs.xaml"
-
-# Parse the XML with lxml
-tree = etree.parse(file_path)
-
-# Find all elements with the "Reference" attribute
-elements_with_reference = tree.xpath("//*[@Reference]")
-
-# Iterate through the elements and get the "Reference" and "DisplayName" values
-for element in elements_with_reference:
-    reference_value = element.get("Reference")
-    parent_element = element.getparent()
-    grandparent_element = parent_element.getparent()
-    display_name_value = grandparent_element.get("DisplayName")
-    print(f"Reference: {reference_value}, DisplayName: {display_name_value}")
+from startdb import session
+from loguru import logger
 
 
+def find_xaml_files(directory: str) -> list[str]:
+    xaml_files = []
+    for root, dirs, files in os.walk(directory):
+        for filename in files:
+            if filename.endswith('.xaml'):
+                xaml_files.append(os.path.join(root, filename))
+    return xaml_files
 
+def generate_schemas(file_path: str) -> list[ActivitySchema]:
+    outlist = []
+    try:
+        with open(file_path, 'r', encoding="utf-8") as file:
+            # Parse the XML with lxml
+            tree = etree.parse(file_path)
+            elements_with_reference = tree.xpath("//*[@Reference]")
+            # Iterate through the elements and get the "Reference" and "DisplayName" values
+            for element in elements_with_reference:
+                reference_value = element.get("Reference")
+                parent_element = element.getparent()
+                grandparent_element = parent_element.getparent()
+                display_name_value = grandparent_element.get("DisplayName")
+                activity_type_value = grandparent_element.tag
+                pydant_instance = ActivitySchema(Reference=reference_value , DisplayName=display_name_value,
+                                                 ActivityType=activity_type_value,FilePath=file_path)
+                logger.info(pydant_instance)
+                outlist.append(pydant_instance)
+        return outlist
+    except Exception as e:
+        print(e)
+        logger.error(e)
+
+def add_to_db(activschema: ActivitySchema) -> Activity:
+    activobj = Activity()
+    activobj.DisplayName = activschema.DisplayName
+    activobj.FilePath = activschema.FilePath
+    activobj.ActivityType = activschema.ActivityType
+    activobj.Reference = activschema.Reference
+    with session:
+        session.add(activobj)
+        session.commit()
+        
+        
+    
+if __name__ == '__main__':
+    logger.debug("Testing...")
+    folderpath = r"TestData\Activities"
+    files = find_xaml_files(folderpath)
+    for file in files:
+        schemas = generate_schemas(file)
+        for schema in schemas:
+            add_to_db(schema)
+    

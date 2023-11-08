@@ -12,10 +12,7 @@ class UIObjectSchema(BaseModel):
 
 
 class ActivitySchema(BaseModel):
-    Id: str
     Reference: str
-    ParentRef: str
-    Name: str
-    Type: str
-    Created: datetime
+    ActivityType: str
+    DisplayName: str
     FilePath: str
