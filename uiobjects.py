@@ -1,7 +1,7 @@
 import os
 import json
-from schemas import UIObjectSchema
-from models import UIObject
+from db.schemas import UIObjectSchema
+from db.models import UIObject
 from startdb import session
 from loguru import logger
 
@@ -20,8 +20,10 @@ def generate_schema(file_path: str, directory: str) -> UIObjectSchema:
             data = json.load(file)
             if 'Reference' in data:
                 relative_path = os.path.relpath(file_path).replace('..\\', '')
+                libraryname = os.path.basename(folderpath)
                 pydant_instance = UIObjectSchema(Id=data['Id'], Reference=data['Reference'], ParentRef=data['ParentRef'],
-                                                 Name=data['Name'], Type=data['Type'], Created=data['Created'], FilePath=relative_path)
+                                                 Name=data['Name'], Type=data['Type'], Created=data['Created'],
+                                                 FilePath=relative_path, LibraryName=libraryname)
                 logger.info(pydant_instance)
                 return pydant_instance
     except Exception as e:

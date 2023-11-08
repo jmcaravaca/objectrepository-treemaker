@@ -1,6 +1,6 @@
 import os
-from schemas import ActivitySchema
-from models import Activity
+from db.schemas import ActivitySchema
+from db.models import Activity
 from lxml import etree
 from startdb import session
 from loguru import logger

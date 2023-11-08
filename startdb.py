@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from models import UIObject, Activity, Base
+from db.models import UIObject, Activity, Base
 
 
 def CreateDB(eng):
