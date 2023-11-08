@@ -14,13 +14,14 @@ def find_metadata_files(directory: str) -> list[str]:
                 metadata_files.append(os.path.join(root, filename))
     return metadata_files
 
-def generate_schema(file_path: str) -> UIObjectSchema:
+def generate_schema(file_path: str, directory: str) -> UIObjectSchema:
     try:
         with open(file_path, 'r', encoding="utf-8-sig") as file:
             data = json.load(file)
             if 'Reference' in data:
+                relative_path = os.path.relpath(file_path).replace('..\\', '')
                 pydant_instance = UIObjectSchema(Id=data['Id'], Reference=data['Reference'], ParentRef=data['ParentRef'],
-                                                 Name=data['Name'], Type=data['Type'], Created=data['Created'], FilePath=file_path)
+                                                 Name=data['Name'], Type=data['Type'], Created=data['Created'], FilePath=relative_path)
                 logger.info(pydant_instance)
                 return pydant_instance
     except Exception as e:
@@ -42,8 +43,11 @@ def add_to_db(uischema: UIObjectSchema) -> UIObject:
         
 if __name__ == '__main__':
     logger.debug("Testing...")
-    folderpath = r"TestData\UIObjects"
+    folderpath = r"C:\Users\Desarrollo1.rpa\Documents\ClarkeModetUI.006Apiges"
     files = find_metadata_files(folderpath)
     for file in files:
-        schema = generate_schema(file)
-        add_to_db(schema)
+        try:
+            schema = generate_schema(file, folderpath)
+            add_to_db(schema)
+        except Exception as e:
+            logger.error(e)
