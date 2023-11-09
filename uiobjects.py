@@ -4,15 +4,9 @@ from db.schemas import UIObjectSchema
 from db.models import UIObject
 from startdb import session
 from loguru import logger
+from filehelpers import find_metadata_files
 
 
-def find_metadata_files(directory: str) -> list[str]:
-    metadata_files = []
-    for root, dirs, files in os.walk(directory):
-        for filename in files:
-            if filename.endswith('.metadata'):
-                metadata_files.append(os.path.join(root, filename))
-    return metadata_files
 
 def generate_schema(file_path: str, directory: str) -> UIObjectSchema:
     try:

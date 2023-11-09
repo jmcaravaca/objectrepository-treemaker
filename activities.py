@@ -4,15 +4,10 @@ from db.models import Activity
 from lxml import etree
 from startdb import session
 from loguru import logger
+from filehelpers import find_xaml_files
 
+# TODO: Get activities from library
 
-def find_xaml_files(directory: str) -> list[str]:
-    xaml_files = []
-    for root, dirs, files in os.walk(directory):
-        for filename in files:
-            if filename.endswith('.xaml'):
-                xaml_files.append(os.path.join(root, filename))
-    return xaml_files
 
 def generate_schemas(file_path: str, directory: str) -> list[ActivitySchema]:
     outlist = []
