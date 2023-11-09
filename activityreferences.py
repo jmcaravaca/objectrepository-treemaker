@@ -59,10 +59,11 @@ def add_to_db(activschema: ActivityReferenceSchema) -> ActivityReference:
         session.add(activobj)
         session.commit()
         
-def main_activityreferences():        
-    logger.debug("Testing...")
-    folderpath = r"C:\Users\Desarrollo1.rpa\Documents\PE004_OPE_GTM_GestionTitulosMarcas"
+def main_activityreferences(folderpath=None):        
+    if folderpath is None:
+        folderpath = r"C:\Users\Desarrollo1.rpa\Documents\PE004_OPE_GTM_GestionTitulosMarcas"
     files = find_xaml_files(folderpath)
+    logger.debug(files)
     for file in files:
         schemas = generate_schemas(file_path=file, directory=folderpath)
         for schema in schemas:

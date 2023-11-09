@@ -38,9 +38,9 @@ def add_to_db(uischema: UIObjectSchema) -> UIObject:
         session.add(uiobj)
         session.commit()
 
-def main_uiobjects():
-    logger.debug("Testing...")
-    folderpath = r"C:\Users\Desarrollo1.rpa\Documents\ClarkeModetUI.006Apiges"
+def main_uiobjects(folderpath=None):
+    if folderpath is None:
+        folderpath = r"C:\Users\Desarrollo1.rpa\Documents\ClarkeModetUI.006Apiges"
     files = find_metadata_files(folderpath)
     for file in files:
         try:

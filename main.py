@@ -38,33 +38,34 @@ def get_activities(findsubfolder: str, librarylocation: str):
 @click.argument('librarylocation')
 def get_uiobjects(findsubfolder: str, librarylocation: str):
     if findsubfolder == 'yes':
-        liblist = [os.path.abspath(name) for name in os.listdir(librarylocation)]
+        liblist = [os.path.join(librarylocation, foldername) for foldername in next(os.walk(librarylocation))[1]]
         for lib in liblist:
             main_uiobjects(folderpath=lib)
     else:
-        main_activities(folderpath=librarylocation)            
+        main_uiobjects(folderpath=librarylocation)            
 
 @cli.command()
 @click.option('--findsubfolder', default='yes', help='whether to find subfolders in the provided path or take it as is')
 @click.argument('librarylocation')
 def get_activityreferences(findsubfolder: str, librarylocation: str):
     if findsubfolder == 'yes':
-        liblist = [os.path.abspath(name) for name in os.listdir(librarylocation)]
+        liblist = [os.path.join(librarylocation, foldername) for foldername in next(os.walk(librarylocation))[1]]
+        logger.debug(liblist)
         for lib in liblist:
             main_activityreferences(folderpath=lib)
     else:
-        main_activities(folderpath=librarylocation)            
+        main_activityreferences(folderpath=librarylocation)            
 
 @cli.command()
 @click.option('--findsubfolder', default='yes', help='whether to find subfolders in the provided path or take it as is')
 @click.argument('librarylocation')
 def get_uireferences(findsubfolder: str, librarylocation: str):
     if findsubfolder == 'yes':
-        liblist = [os.path.abspath(name) for name in os.listdir(librarylocation)]
+        liblist = [os.path.join(librarylocation, foldername) for foldername in next(os.walk(librarylocation))[1]]
         for lib in liblist:
             main_uireferences(folderpath=lib)
     else:
-        main_activities(folderpath=librarylocation)            
+        main_uireferences(folderpath=librarylocation)            
                 
     
 if __name__ == '__main__':

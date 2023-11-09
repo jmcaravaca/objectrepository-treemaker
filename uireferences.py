@@ -22,6 +22,8 @@ def generate_schemas(file_path: str, directory: str) -> list[UIReference]:
                 parent_element = element.getparent()
                 grandparent_element = parent_element.getparent()
                 display_name_value = grandparent_element.get("DisplayName")
+                if display_name_value is None:
+                    display_name_value = ""
                 activity_type_value = grandparent_element.tag.split('}')[-1]
                 processname = os.path.basename(directory)
                 relative_path: str = os.path.join(processname, pathlib.Path(file_path).relative_to(directory).name)
@@ -47,7 +49,6 @@ def add_to_db(uirefschema: UIReferenceSchema) -> UIReference:
     return uirefobj
         
 def main_uireferences(folderpath: str = None):        
-    logger.debug("Testing...")
     if folderpath is None:
         folderpath = r"C:\Users\Desarrollo1.rpa\Documents\ClarkeModetRPA.006Apiges"
     files = find_xaml_files(folderpath)
