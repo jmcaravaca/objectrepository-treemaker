@@ -1,8 +1,8 @@
-import os
+import os, pathlib
 from db.schemas import ActivityReferenceSchema
 from db.models import ActivityReference
 from lxml import etree
-from startdb import session
+from db.startdb import session
 from loguru import logger
 from filehelpers import find_xaml_files
 
@@ -37,8 +37,8 @@ def generate_schemas(file_path: str, directory: str) -> list[ActivityReferenceSc
                         continue
                     displayname = element.get("DisplayName") 
                     displayname = displayname if displayname else tagname # If displayname is empty, just use tagname
-                    relative_path = os.path.relpath(file_path).replace('..\\', '')
                     processname = os.path.basename(directory)
+                    relative_path: str = os.path.join(processname, pathlib.Path(file_path).relative_to(directory).name)
                     pydant_instance = ActivityReferenceSchema(ActivityName=tagname, DisplayName=displayname, Assembly=assembly,
                                                               FilePath=relative_path, ProcessName=processname)
                     logger.info(pydant_instance)

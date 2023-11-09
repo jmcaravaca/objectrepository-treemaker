@@ -1,8 +1,8 @@
-import os
+import os, pathlib
 import json
 from db.schemas import UIObjectSchema
 from db.models import UIObject
-from startdb import session
+from db.startdb import session
 from loguru import logger
 from filehelpers import find_metadata_files
 
@@ -14,8 +14,8 @@ def generate_schema(file_path: str, directory: str) -> UIObjectSchema:
         with open(file_path, 'r', encoding="utf-8-sig") as file:
             data = json.load(file)
             if 'Reference' in data:
-                relative_path = os.path.relpath(file_path).replace('..\\', '')
                 libraryname = os.path.basename(directory)
+                relative_path: str = os.path.join(libraryname, pathlib.Path(file_path).relative_to(directory).name)
                 pydant_instance = UIObjectSchema(Id=data['Id'], Reference=data['Reference'], ParentRef=data['ParentRef'],
                                                  Name=data['Name'], Type=data['Type'], Created=data['Created'],
                                                  FilePath=relative_path, LibraryName=libraryname)

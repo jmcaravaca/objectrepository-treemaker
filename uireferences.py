@@ -1,8 +1,8 @@
-import os
+import os, pathlib
 from db.schemas import UIReferenceSchema
 from db.models import UIReference
 from lxml import etree
-from startdb import session
+from db.startdb import session
 from loguru import logger
 from filehelpers import find_xaml_files
 
@@ -23,8 +23,8 @@ def generate_schemas(file_path: str, directory: str) -> list[UIReference]:
                 grandparent_element = parent_element.getparent()
                 display_name_value = grandparent_element.get("DisplayName")
                 activity_type_value = grandparent_element.tag.split('}')[-1]
-                relative_path = os.path.relpath(file_path).replace('..\\', '')
                 processname = os.path.basename(directory)
+                relative_path: str = os.path.join(processname, pathlib.Path(file_path).relative_to(directory).name)
                 pydant_instance = UIReferenceSchema(Reference=reference_value , DisplayName=display_name_value,
                                                  ActivityType=activity_type_value,FilePath=relative_path, ProcessName=processname)
                 logger.info(pydant_instance)

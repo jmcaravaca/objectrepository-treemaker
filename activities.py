@@ -1,18 +1,18 @@
 import os
 from db.schemas import ActivitySchema
 from db.models import Activity
-from startdb import session
+from db.startdb import session
 from loguru import logger
 from filehelpers import find_xaml_files, find_project_files
-import json
+import json, pathlib
 
 # Get Activities from library
 
 
 def generate_schema(file_path: str, directory: str, test_cases: list[str], type:str = None) -> list[ActivitySchema]:
     try:
-        relative_path: str = os.path.relpath(file_path).replace('..\\', '')
         libraryname: str = os.path.basename(directory)
+        relative_path: str = os.path.join(libraryname, pathlib.Path(file_path).relative_to(directory).name)
         name: str = os.path.splitext(os.path.basename(file_path))[0]
         if type is None:        
             if name in test_cases:
