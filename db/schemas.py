@@ -21,6 +21,7 @@ class UIReferenceSchema(BaseModel):
 class ActivitySchema(BaseModel):
     LibraryName: str
     Name: str
+    Type: str #TestCase or Activity or ProcessWorkflow
     FilePath: str
 
 class ActivityReferenceSchema(BaseModel):

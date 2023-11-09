@@ -33,7 +33,7 @@ class Activity(Base):
     Id = Column(Integer, primary_key=True, autoincrement=True)
     LibraryName = Column(String)
     Name = Column(String)
-    DisplayName = Column(String)
+    Type = Column(String)
     FilePath = Column(String)
     __table_args__ = (UniqueConstraint('Name', 'LibraryName'),)
 

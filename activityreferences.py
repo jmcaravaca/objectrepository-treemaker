@@ -59,9 +59,7 @@ def add_to_db(activschema: ActivityReferenceSchema) -> ActivityReference:
         session.add(activobj)
         session.commit()
         
-        
-    
-if __name__ == '__main__':
+def main_activityreferences():        
     logger.debug("Testing...")
     folderpath = r"C:\Users\Desarrollo1.rpa\Documents\PE004_OPE_GTM_GestionTitulosMarcas"
     files = find_xaml_files(folderpath)
@@ -71,5 +69,9 @@ if __name__ == '__main__':
             try:
                 add_to_db(schema)
             except Exception as e:
-                logger.error(e)
+                logger.error(e)    
+
+if __name__ == '__main__':
+    main_activityreferences()
+
     

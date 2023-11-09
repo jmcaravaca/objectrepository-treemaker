@@ -40,16 +40,16 @@ def add_to_db(uirefschema: UIReferenceSchema) -> UIReference:
     uirefobj.FilePath = uirefschema.FilePath
     uirefobj.ActivityType = uirefschema.ActivityType
     uirefobj.Reference = uirefschema.Reference
+    uirefobj.ProcessName = uirefschema.ProcessName
     with session:
         session.add(uirefobj)
         session.commit()
     return uirefobj
         
-        
-    
-if __name__ == '__main__':
+def main_uireferences(folderpath: str = None):        
     logger.debug("Testing...")
-    folderpath = r"C:\Users\Desarrollo1.rpa\Documents\ClarkeModetRPA.006Apiges"
+    if folderpath is None:
+        folderpath = r"C:\Users\Desarrollo1.rpa\Documents\ClarkeModetRPA.006Apiges"
     files = find_xaml_files(folderpath)
     for file in files:
         schemas = generate_schemas(file_path=file, directory=folderpath)
@@ -57,5 +57,8 @@ if __name__ == '__main__':
             try:
                 add_to_db(schema)
             except Exception as e:
-                logger.error(e)
+                logger.error(e)    
+
+if __name__ == '__main__':
+    main_uireferences()
     

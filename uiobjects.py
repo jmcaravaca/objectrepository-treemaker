@@ -15,7 +15,7 @@ def generate_schema(file_path: str, directory: str) -> UIObjectSchema:
             data = json.load(file)
             if 'Reference' in data:
                 relative_path = os.path.relpath(file_path).replace('..\\', '')
-                libraryname = os.path.basename(folderpath)
+                libraryname = os.path.basename(directory)
                 pydant_instance = UIObjectSchema(Id=data['Id'], Reference=data['Reference'], ParentRef=data['ParentRef'],
                                                  Name=data['Name'], Type=data['Type'], Created=data['Created'],
                                                  FilePath=relative_path, LibraryName=libraryname)
@@ -37,8 +37,8 @@ def add_to_db(uischema: UIObjectSchema) -> UIObject:
     with session:
         session.add(uiobj)
         session.commit()
-        
-if __name__ == '__main__':
+
+def main_uiobjects():
     logger.debug("Testing...")
     folderpath = r"C:\Users\Desarrollo1.rpa\Documents\ClarkeModetUI.006Apiges"
     files = find_metadata_files(folderpath)
@@ -47,4 +47,8 @@ if __name__ == '__main__':
             schema = generate_schema(file, folderpath)
             add_to_db(schema)
         except Exception as e:
-            logger.error(e)
+            logger.error(e)    
+
+        
+if __name__ == '__main__':
+    main_uiobjects()
