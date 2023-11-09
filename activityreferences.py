@@ -6,6 +6,9 @@ from startdb import session
 from loguru import logger
 from filehelpers import find_xaml_files
 
+
+# Get Reference (Invokes) of library activities in workflow
+
 def get_filtered_namespaces(strfilter: str, root) -> dict:
     # Define a dictionary to store the namespaces
     namespaces = {}

@@ -7,6 +7,8 @@ from loguru import logger
 from filehelpers import find_xaml_files
 
 
+# Get Reference of ui objects in workflow
+
 def generate_schemas(file_path: str, directory: str) -> list[UIReference]:
     outlist = []
     try:

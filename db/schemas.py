@@ -21,7 +21,6 @@ class UIReferenceSchema(BaseModel):
 class ActivitySchema(BaseModel):
     LibraryName: str
     Name: str
-    DisplayName: str
     FilePath: str
 
 class ActivityReferenceSchema(BaseModel):

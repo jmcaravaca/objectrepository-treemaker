@@ -7,6 +7,7 @@ from loguru import logger
 from filehelpers import find_metadata_files
 
 
+#Get metadata of ui objects
 
 def generate_schema(file_path: str, directory: str) -> UIObjectSchema:
     try:
