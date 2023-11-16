@@ -47,6 +47,27 @@ class ActivityReference(Base):
     Assembly = Column(String) # Assembly = Activity.LibraryName
     FilePath = Column(String)
     __table_args__ = (UniqueConstraint('ActivityName', 'ProcessName', 'FilePath'),)
+    
+class Config(Base):
+    """KeyValues of Configs for processes"""
+    __tablename__ = 'configs'
+    Id = Column(Integer, primary_key=True, autoincrement=True)
+    ProcessName = Column(String)
+    Name = Column(String)
+    Sheet = Column(String)
+    Value = Column(String) # Assembly = Activity.LibraryName
+    FilePath = Column(String)
+    __table_args__ = (UniqueConstraint('Name', 'Sheet', 'FilePath', 'ProcessName'),)
+    
+class ConfigReference(Base):
+    """References to Config values."""
+    __tablename__ = 'configreferences'
+    Id = Column(Integer, primary_key=True, autoincrement=True)
+    ProcessName = Column(String)
+    WorkflowName = Column(String)
+    KeyReference = Column(String)
+    FilePath = Column(String)
+    __table_args__ = (UniqueConstraint('ProcessName', 'WorkflowName', 'KeyReference'),)        
 
 
 

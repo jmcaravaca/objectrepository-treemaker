@@ -30,3 +30,16 @@ class ActivityReferenceSchema(BaseModel):
     DisplayName: str
     Assembly: str
     FilePath: str
+
+class ConfigSchema(BaseModel):
+    ProcessName: str
+    Name: str
+    Sheet: str #TestCase or Activity or ProcessWorkflow
+    Value: str #TestCase or Activity or ProcessWorkflow
+    FilePath: str
+    
+class ConfigReferenceSchema(BaseModel):
+    ProcessName: str
+    WorkflowName: str
+    KeyReference: str
+    FilePath: str    
