@@ -23,3 +23,11 @@ def find_project_files(directory: str) -> list[str]:
             if filename == 'project.json':
                 metadata_files.append(os.path.join(root, filename))
     return metadata_files
+
+def find_config_files(directory: str) -> list[str]:
+    configfiles = []
+    for root, dirs, files in os.walk(directory):
+        for filename in files:
+            if filename.endswith('.xlsx') and 'config' in filename.lower():
+                configfiles.append(os.path.join(root, filename))
+    return configfiles
