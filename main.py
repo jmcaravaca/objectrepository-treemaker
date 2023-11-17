@@ -2,6 +2,8 @@ from activities import main_activities
 from uiobjects import main_uiobjects
 from uireferences import main_uireferences
 from activityreferences import main_activityreferences
+from configs import main_configs
+from configreferences import main_configreferences
 import os, click
 from db.startdb import CreateDB
 from loguru import logger
@@ -65,7 +67,29 @@ def get_uireferences(findsubfolder: str, librarylocation: str):
         for lib in liblist:
             main_uireferences(folderpath=lib)
     else:
-        main_uireferences(folderpath=librarylocation)            
+        main_uireferences(folderpath=librarylocation) 
+        
+@cli.command()
+@click.option('--findsubfolder', default='yes', help='whether to find subfolders in the provided path or take it as is')
+@click.argument('librarylocation')
+def get_configreferences(findsubfolder: str, librarylocation: str):
+    if findsubfolder == 'yes':
+        liblist = [os.path.join(librarylocation, foldername) for foldername in next(os.walk(librarylocation))[1]]
+        for lib in liblist:
+            main_configreferences(folderpath=lib)
+    else:
+        main_configreferences(folderpath=librarylocation) 
+        
+@cli.command()
+@click.option('--findsubfolder', default='yes', help='whether to find subfolders in the provided path or take it as is')
+@click.argument('librarylocation')
+def get_configs(findsubfolder: str, librarylocation: str):
+    if findsubfolder == 'yes':
+        liblist = [os.path.join(librarylocation, foldername) for foldername in next(os.walk(librarylocation))[1]]
+        for lib in liblist:
+            main_configs(folderpath=lib)
+    else:
+        main_configs(folderpath=librarylocation)                            
                 
     
 if __name__ == '__main__':

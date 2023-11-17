@@ -55,7 +55,7 @@ def add_to_db(activschema: ConfigSchema) -> Config:
         session.add(activobj)
         session.commit()
         
-def main_activityreferences(folderpath=None):        
+def main_configs(folderpath=None):        
     if folderpath is None:
         folderpath = r"C:\Users\Desarrollo1.rpa\Documents\PE004_OPE_GTM_GestionTitulosMarcas"
     files = find_config_files(folderpath)
@@ -69,6 +69,6 @@ def main_activityreferences(folderpath=None):
                 logger.error(e)    
 
 if __name__ == '__main__':
-    main_activityreferences()
+    main_configs()
 
     
