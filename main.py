@@ -1,11 +1,12 @@
-from activities import main_activities
-from uiobjects import main_uiobjects
-from uireferences import main_uireferences
-from activityreferences import main_activityreferences
-from configs import main_configs
-from configreferences import main_configreferences
+from parsers.activities import main_activities
+from parsers.uiobjects import main_uiobjects
+from parsers.uireferences import main_uireferences
+from parsers.activityreferences import main_activityreferences
+from parsers.configs import main_configs
+from parsers.configreferences import main_configreferences
+from parsers.getrepos import clone_repos
 import os, click
-from db.startdb import CreateDB
+from db.startdb import create_db
 from loguru import logger
 
 @click.group()
@@ -18,8 +19,13 @@ def init_db(delete:str):
     if delete == 'yes':
         os.remove("uidata.db")
         click.echo('Deleted DB')
-    CreateDB()
+    create_db()
     click.echo('Initialized the database')
+    
+@cli.command()
+def clone_repos():
+    clone_repos()
+    click.echo('Initialized the database')    
 
 
 @cli.command()
