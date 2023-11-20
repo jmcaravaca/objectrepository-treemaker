@@ -54,10 +54,10 @@ def generate_schemas(file_path: str, directory: str) -> list[ActivityReferenceSc
                     )
                     logger.info(pydant_instance)
                     outlist.append(pydant_instance)
-        return outlist
     except Exception as e:
         print(e)
         logger.error(e)
+    return outlist
 
 
 def add_to_db(activschema: ActivityReferenceSchema) -> ActivityReference:

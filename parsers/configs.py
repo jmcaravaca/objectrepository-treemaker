@@ -47,11 +47,10 @@ def generate_schemas(file_path: str, directory: str) -> list[ConfigSchema]:
                     except Exception as e:
                         print(e)
                         logger.error(e)
-        return outlist
     except Exception as e:
         print(e)
         logger.error(e)
-        return outlist
+    return outlist
 
 
 def add_to_db(activschema: ConfigSchema) -> Config:

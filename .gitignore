@@ -162,3 +162,4 @@ TestData/
 uidata.db
 secret.py
 Repos/
+.ruff*

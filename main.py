@@ -24,10 +24,6 @@ def init_db(delete: str = "no"):
     logger.info("DB Created")
 
 
-def clone_repos():
-    clone_repos()
-
-
 def get_activities(findsubfolder: str = "yes", librarylocation: str = None):
     logger.debug(f"{librarylocation} : {findsubfolder}")
     if findsubfolder == "yes":
@@ -106,8 +102,8 @@ if __name__ == "__main__":
     proc_path = os.path.join(REPO_BASE_DIRECTORY, REPO_PROCESS_DIRECTORY)
     lib_path = os.path.join(REPO_BASE_DIRECTORY, REPO_LIBRARY_DIRECTORY)
     other_path = os.path.join(REPO_BASE_DIRECTORY, REPO_OTHER_DIRECTORY)
-    init_db()
-    clone_repos()
+    init_db(delete='yes')
+    #clone_repos()
     get_activities(findsubfolder="yes", librarylocation=lib_path)
     get_activityreferences(findsubfolder="yes", librarylocation=proc_path)
     get_configreferences(findsubfolder="yes", librarylocation=proc_path)

@@ -37,12 +37,12 @@ def clone_repos(clone_directory: str = REPO_BASE_DIRECTORY):
         try:
             repo_name = repo.name
             repo_url = repo.ssh_url  # Cloned with SSH Key
-            if re.match(r"[a-zA-z]{2}\d{3}_", repo_name):  # Processes
-                destination_path = os.path.join(clone_directory, REPO_PROCESS_DIRECTORY)
-            elif re.match(r"RPA\.\d{3}|UI\.\d{3}", repo_name):
-                destination_path = os.path.join(clone_directory, REPO_LIBRARY_DIRECTORY)
+            if re.search(r"[a-zA-z]{2}\d{3}_", repo_name):  # Processes
+                destination_path = os.path.join(clone_directory, REPO_PROCESS_DIRECTORY, repo.name)
+            elif re.search(r"RPA\.\d{3}|UI\.\d{3}", repo_name):
+                destination_path = os.path.join(clone_directory, REPO_LIBRARY_DIRECTORY, repo.name)
             else:
-                destination_path = os.path.join(clone_directory, REPO_OTHER_DIRECTORY)
+                destination_path = os.path.join(clone_directory, REPO_OTHER_DIRECTORY, repo.name)
             logger.info(f"Cloning: {repo_name}")
             git.Git().clone(repo_url, destination_path)
             logger.info(f"Successfully cloned: {repo_name}")
