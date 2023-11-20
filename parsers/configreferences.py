@@ -31,7 +31,7 @@ def generate_schemas(file_path: str, directory: str) -> list[ConfigReferenceSche
                 KeyReference=keyreference,
                 FilePath=relative_path,
             )
-            logger.info(pydant_instance)
+            logger.debug(pydant_instance)
             outlist.append(pydant_instance)
     except Exception as e:
         print(e)
@@ -56,6 +56,7 @@ def main_configreferences(folderpath=None):
             r"C:\Users\Desarrollo1.rpa\Documents\PE004_OPE_GTM_GestionTitulosMarcas"
         )
     files = find_xaml_files(folderpath)
+    logger.info(f"Generating Config References for: {folderpath}")
     logger.debug(files)
     for file in files:
         schemas = generate_schemas(file_path=file, directory=folderpath)

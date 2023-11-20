@@ -37,7 +37,7 @@ def generate_schemas(file_path: str, directory: str) -> list[UIReference]:
                     FilePath=relative_path,
                     ProcessName=processname,
                 )
-                logger.info(pydant_instance)
+                logger.debug(pydant_instance)
                 outlist.append(pydant_instance)
     except Exception as e:
         print(e)
@@ -62,6 +62,7 @@ def main_uireferences(folderpath: str = None):
     if folderpath is None:
         folderpath = r"C:\Users\Desarrollo1.rpa\Documents\ClarkeModetRPA.006Apiges"
     files = find_xaml_files(folderpath)
+    logger.info(f"Generating UI Reference Schemas for: {folderpath}")
     for file in files:
         schemas = generate_schemas(file_path=file, directory=folderpath)
         for schema in schemas:

@@ -1,5 +1,5 @@
-from sqlalchemy import Column, String, DateTime, Integer, UniqueConstraint
-from sqlalchemy.orm import declarative_base
+from sqlalchemy import Column, String, DateTime, Integer, UniqueConstraint, ForeignKey
+from sqlalchemy.orm import declarative_base, relationship
 
 Base = declarative_base()
 
@@ -17,6 +17,8 @@ class UIObject(Base):
     FilePath = Column(String)
     LibraryName = Column(String)  # = UIReference
     __table_args__ = (UniqueConstraint("Reference", "ParentRef", "LibraryName"),)
+    # Define the relationship from UIObject to UIReference
+    references = relationship("UIReference", back_populates="ui_object")    
 
 
 class UIReference(Base):
@@ -24,12 +26,14 @@ class UIReference(Base):
 
     __tablename__ = "uireferences"
     Id = Column(Integer, primary_key=True, autoincrement=True)
-    Reference = Column(String)  # = UIObject.Reference
+    Reference = Column(String, ForeignKey("uiobjects.Reference"))  # = UIObject.Reference
     ActivityType = Column(String)
     DisplayName = Column(String)
     FilePath = Column(String)
     ProcessName = Column(String)
     __table_args__ = (UniqueConstraint("DisplayName", "Reference", "FilePath"),)
+    # Define the relationship from UIReference to UIObject
+    ui_object = relationship("UIObject", back_populates="references")    
 
 
 class Activity(Base):

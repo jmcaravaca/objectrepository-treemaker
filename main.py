@@ -14,6 +14,10 @@ from secret import (
     REPO_PROCESS_DIRECTORY,
     REPO_OTHER_DIRECTORY,
 )
+import sys
+
+logger.remove()
+logger.add(sys.stderr, level="INFO")
 
 
 def init_db(delete: str = "no"):
@@ -55,7 +59,6 @@ def get_activityreferences(findsubfolder: str = "yes", librarylocation: str = No
             os.path.join(librarylocation, foldername)
             for foldername in next(os.walk(librarylocation))[1]
         ]
-        logger.debug(liblist)
         for lib in liblist:
             main_activityreferences(folderpath=lib)
     else:
@@ -108,6 +111,6 @@ if __name__ == "__main__":
     get_activityreferences(findsubfolder="yes", librarylocation=proc_path)
     get_configreferences(findsubfolder="yes", librarylocation=proc_path)
     get_configs(findsubfolder="yes", librarylocation=proc_path)
-    get_uiobjects(findsubfolder="yes", librarylocation=lib_path)
-    get_uireferences(findsubfolder="yes", librarylocation=lib_path)
-    get_uireferences(findsubfolder="yes", librarylocation=proc_path)
+    #get_uiobjects(findsubfolder="yes", librarylocation=lib_path)
+    #get_uireferences(findsubfolder="yes", librarylocation=lib_path)
+    #get_uireferences(findsubfolder="yes", librarylocation=proc_path)

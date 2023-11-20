@@ -29,7 +29,7 @@ def generate_schema(file_path: str, directory: str) -> UIObjectSchema:
                     FilePath=relative_path,
                     LibraryName=libraryname,
                 )
-                logger.info(pydant_instance)
+                logger.debug(pydant_instance)
                 return pydant_instance
     except Exception as e:
         print(e)
@@ -44,6 +44,7 @@ def add_to_db(uischema: UIObjectSchema) -> UIObject:
     uiobj.Name = uischema.Name
     uiobj.ParentRef = uischema.ParentRef
     uiobj.Reference = uischema.Reference
+    uiobj.LibraryName = uischema.LibraryName
     uiobj.Type = uischema.Type
     with session:
         session.add(uiobj)
@@ -54,6 +55,7 @@ def main_uiobjects(folderpath=None):
     if folderpath is None:
         folderpath = r"C:\Users\Desarrollo1.rpa\Documents\ClarkeModetUI.006Apiges"
     files = find_metadata_files(folderpath)
+    logger.info(f"Generating UI Object Schemas for: {folderpath}")
     for file in files:
         try:
             schema = generate_schema(file, folderpath)

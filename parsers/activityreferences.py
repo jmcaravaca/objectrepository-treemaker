@@ -52,7 +52,7 @@ def generate_schemas(file_path: str, directory: str) -> list[ActivityReferenceSc
                         FilePath=relative_path,
                         ProcessName=processname,
                     )
-                    logger.info(pydant_instance)
+                    logger.debug(pydant_instance)
                     outlist.append(pydant_instance)
     except Exception as e:
         print(e)
@@ -79,6 +79,7 @@ def main_activityreferences(folderpath=None):
         )
     files = find_xaml_files(folderpath)
     logger.debug(files)
+    logger.info(f"Generating Activity References for: {folderpath}")
     for file in files:
         schemas = generate_schemas(file_path=file, directory=folderpath)
         for schema in schemas:

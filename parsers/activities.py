@@ -26,7 +26,7 @@ def generate_schema(
         pydant_instance = ActivitySchema(
             LibraryName=libraryname, Name=name, FilePath=relative_path, Type=type
         )
-        logger.info(pydant_instance)
+        logger.debug(pydant_instance)
         return pydant_instance
     except Exception as e:
         print(e)
@@ -60,6 +60,7 @@ def main_activities(folderpath: str = None, foldertype: str = None):
         folderpath = r"C:\Users\Desarrollo1.rpa\Documents\ClarkeModetRPA.006Apiges"
     # Build test case list
     project_files = find_project_files(folderpath)
+    logger.info(f"Generating Activity Schemas for: {project_files}")
     test_cases = []
     for file in project_files:
         temp_test_cases = get_test_cases(file)
