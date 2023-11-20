@@ -10,6 +10,7 @@ import pandas as pd
 
 # Get Reference of Config values
 
+
 def get_sheet_names(file_path):
     # We need to use pandas for this because polars doesn't have a get sheets
     xls = pd.ExcelFile(file_path)
@@ -27,12 +28,20 @@ def generate_schemas(file_path: str, directory: str) -> list[ConfigSchema]:
             # Iterate through rows in the DataFrame and extract data
             for row in df.iter_rows():
                 # Create a Pydantic model instance for each row if Column B has value
-                if row[1]: # If row has value
+                if row[1]:  # If row has value
                     try:
                         processname = os.path.basename(directory)
-                        relative_path: str = os.path.join(processname, pathlib.Path(file_path).relative_to(directory).name)
-                        pydant_instance = ConfigSchema(Name=row[0], Sheet=sheet_name, Value=row[1], ProcessName=processname,
-                                                            FilePath=relative_path)
+                        relative_path: str = os.path.join(
+                            processname,
+                            pathlib.Path(file_path).relative_to(directory).name,
+                        )
+                        pydant_instance = ConfigSchema(
+                            Name=row[0],
+                            Sheet=sheet_name,
+                            Value=row[1],
+                            ProcessName=processname,
+                            FilePath=relative_path,
+                        )
                         logger.info(pydant_instance)
                         outlist.append(pydant_instance)
                     except Exception as e:
@@ -44,6 +53,7 @@ def generate_schemas(file_path: str, directory: str) -> list[ConfigSchema]:
         logger.error(e)
         return outlist
 
+
 def add_to_db(activschema: ConfigSchema) -> Config:
     activobj = Config()
     activobj.ProcessName = activschema.ProcessName
@@ -54,10 +64,13 @@ def add_to_db(activschema: ConfigSchema) -> Config:
     with session:
         session.add(activobj)
         session.commit()
-        
-def main_configs(folderpath=None):        
+
+
+def main_configs(folderpath=None):
     if folderpath is None:
-        folderpath = r"C:\Users\Desarrollo1.rpa\Documents\PE004_OPE_GTM_GestionTitulosMarcas"
+        folderpath = (
+            r"C:\Users\Desarrollo1.rpa\Documents\PE004_OPE_GTM_GestionTitulosMarcas"
+        )
     files = find_config_files(folderpath)
     logger.debug(files)
     for file in files:
@@ -66,9 +79,8 @@ def main_configs(folderpath=None):
             try:
                 add_to_db(schema)
             except Exception as e:
-                logger.error(e)    
+                logger.error(e)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main_configs()
-
-    

@@ -9,10 +9,11 @@ from filehelpers import find_xaml_files
 
 # Get Reference of ui objects in workflow
 
+
 def generate_schemas(file_path: str, directory: str) -> list[UIReference]:
     outlist = []
     try:
-        with open(file_path, 'r', encoding="utf-8") as file:
+        with open(file_path, "r", encoding="utf-8") as file:
             # Parse the XML with lxml
             tree = etree.parse(file_path)
             elements_with_reference = tree.xpath("//*[@Reference]")
@@ -24,17 +25,25 @@ def generate_schemas(file_path: str, directory: str) -> list[UIReference]:
                 display_name_value = grandparent_element.get("DisplayName")
                 if display_name_value is None:
                     display_name_value = ""
-                activity_type_value = grandparent_element.tag.split('}')[-1]
+                activity_type_value = grandparent_element.tag.split("}")[-1]
                 processname = os.path.basename(directory)
-                relative_path: str = os.path.join(processname, pathlib.Path(file_path).relative_to(directory).name)
-                pydant_instance = UIReferenceSchema(Reference=reference_value , DisplayName=display_name_value,
-                                                 ActivityType=activity_type_value,FilePath=relative_path, ProcessName=processname)
+                relative_path: str = os.path.join(
+                    processname, pathlib.Path(file_path).relative_to(directory).name
+                )
+                pydant_instance = UIReferenceSchema(
+                    Reference=reference_value,
+                    DisplayName=display_name_value,
+                    ActivityType=activity_type_value,
+                    FilePath=relative_path,
+                    ProcessName=processname,
+                )
                 logger.info(pydant_instance)
                 outlist.append(pydant_instance)
         return outlist
     except Exception as e:
         print(e)
         logger.error(e)
+
 
 def add_to_db(uirefschema: UIReferenceSchema) -> UIReference:
     uirefobj = UIReference()
@@ -47,8 +56,9 @@ def add_to_db(uirefschema: UIReferenceSchema) -> UIReference:
         session.add(uirefobj)
         session.commit()
     return uirefobj
-        
-def main_uireferences(folderpath: str = None):        
+
+
+def main_uireferences(folderpath: str = None):
     if folderpath is None:
         folderpath = r"C:\Users\Desarrollo1.rpa\Documents\ClarkeModetRPA.006Apiges"
     files = find_xaml_files(folderpath)
@@ -58,8 +68,8 @@ def main_uireferences(folderpath: str = None):
             try:
                 add_to_db(schema)
             except Exception as e:
-                logger.error(e)    
+                logger.error(e)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main_uireferences()
-    

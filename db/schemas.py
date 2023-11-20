@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from datetime import datetime
 
+
 class UIObjectSchema(BaseModel):
     Id: str
     Reference: str
@@ -11,6 +12,7 @@ class UIObjectSchema(BaseModel):
     FilePath: str
     LibraryName: str
 
+
 class UIReferenceSchema(BaseModel):
     Reference: str
     ActivityType: str
@@ -18,11 +20,13 @@ class UIReferenceSchema(BaseModel):
     FilePath: str
     ProcessName: str
 
+
 class ActivitySchema(BaseModel):
     LibraryName: str
     Name: str
-    Type: str #TestCase or Activity or ProcessWorkflow
+    Type: str  # TestCase or Activity or ProcessWorkflow
     FilePath: str
+
 
 class ActivityReferenceSchema(BaseModel):
     ProcessName: str
@@ -31,15 +35,17 @@ class ActivityReferenceSchema(BaseModel):
     Assembly: str
     FilePath: str
 
+
 class ConfigSchema(BaseModel):
     ProcessName: str
     Name: str
-    Sheet: str #TestCase or Activity or ProcessWorkflow
-    Value: str #TestCase or Activity or ProcessWorkflow
+    Sheet: str  # TestCase or Activity or ProcessWorkflow
+    Value: str  # TestCase or Activity or ProcessWorkflow
     FilePath: str
-    
+
+
 class ConfigReferenceSchema(BaseModel):
     ProcessName: str
     WorkflowName: str
     KeyReference: str
-    FilePath: str    
+    FilePath: str

@@ -9,6 +9,7 @@ from filehelpers import find_xaml_files
 
 # Get Reference (Invokes) of library activities in workflow
 
+
 def get_filtered_namespaces(strfilter: str, root) -> dict:
     # Define a dictionary to store the namespaces
     namespaces = {}
@@ -16,14 +17,15 @@ def get_filtered_namespaces(strfilter: str, root) -> dict:
     for key, value in root.nsmap.items():
         if strfilter in value:
             # Extract the namespace prefix and assembly name (library)
-            library = value.split('assembly=')[-1]
+            library = value.split("assembly=")[-1]
             namespaces[key] = library
     return namespaces
+
 
 def generate_schemas(file_path: str, directory: str) -> list[ActivityReferenceSchema]:
     outlist = []
     try:
-        with open(file_path, 'r', encoding="utf-8") as file:
+        with open(file_path, "r", encoding="utf-8") as file:
             # Parse the XML with lxml
             tree = etree.parse(file_path)
             root = tree.getroot()
@@ -31,22 +33,32 @@ def generate_schemas(file_path: str, directory: str) -> list[ActivityReferenceSc
             for namespace, assembly in namespaces.items():
                 nselements = root.xpath(f"//*[starts-with(name(), '{namespace}:')]")
                 for element in nselements:
-                    tagname = element.tag.split('}')[-1]
+                    tagname = element.tag.split("}")[-1]
                     if "." in tagname:
                         # "Fake" element, skip
                         continue
-                    displayname = element.get("DisplayName") 
-                    displayname = displayname if displayname else tagname # If displayname is empty, just use tagname
+                    displayname = element.get("DisplayName")
+                    displayname = (
+                        displayname if displayname else tagname
+                    )  # If displayname is empty, just use tagname
                     processname = os.path.basename(directory)
-                    relative_path: str = os.path.join(processname, pathlib.Path(file_path).relative_to(directory).name)
-                    pydant_instance = ActivityReferenceSchema(ActivityName=tagname, DisplayName=displayname, Assembly=assembly,
-                                                              FilePath=relative_path, ProcessName=processname)
+                    relative_path: str = os.path.join(
+                        processname, pathlib.Path(file_path).relative_to(directory).name
+                    )
+                    pydant_instance = ActivityReferenceSchema(
+                        ActivityName=tagname,
+                        DisplayName=displayname,
+                        Assembly=assembly,
+                        FilePath=relative_path,
+                        ProcessName=processname,
+                    )
                     logger.info(pydant_instance)
                     outlist.append(pydant_instance)
         return outlist
     except Exception as e:
         print(e)
         logger.error(e)
+
 
 def add_to_db(activschema: ActivityReferenceSchema) -> ActivityReference:
     activobj = ActivityReference()
@@ -58,10 +70,13 @@ def add_to_db(activschema: ActivityReferenceSchema) -> ActivityReference:
     with session:
         session.add(activobj)
         session.commit()
-        
-def main_activityreferences(folderpath=None):        
+
+
+def main_activityreferences(folderpath=None):
     if folderpath is None:
-        folderpath = r"C:\Users\Desarrollo1.rpa\Documents\PE004_OPE_GTM_GestionTitulosMarcas"
+        folderpath = (
+            r"C:\Users\Desarrollo1.rpa\Documents\PE004_OPE_GTM_GestionTitulosMarcas"
+        )
     files = find_xaml_files(folderpath)
     logger.debug(files)
     for file in files:
@@ -70,9 +85,8 @@ def main_activityreferences(folderpath=None):
             try:
                 add_to_db(schema)
             except Exception as e:
-                logger.error(e)    
+                logger.error(e)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main_activityreferences()
-
-    
