@@ -163,3 +163,5 @@ uidata.db
 secret.py
 Repos/
 .ruff*
+
+librarydocs

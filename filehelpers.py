@@ -9,6 +9,10 @@ def find_xaml_files(directory: str) -> list[str]:
                 xaml_files.append(os.path.join(root, filename))
     return xaml_files
 
+def read_template(file_path):
+    with open(file_path, "r", encoding="utf-8") as file:
+        return file.read()
+
 
 def find_metadata_files(directory: str) -> list[str]:
     metadata_files = []

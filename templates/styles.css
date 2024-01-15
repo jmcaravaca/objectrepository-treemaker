@@ -1,0 +1,49 @@
+/* styles.css */
+body {
+    font-family: 'Arial', sans-serif;
+}
+
+h1 {
+    color: #333;
+}
+
+a {
+    color: #0066cc;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* Additional styles for markdown content */
+body {
+    max-width: 800px;
+    margin: 40px auto;
+    line-height: 1.6;
+    color: #333;
+}
+
+h1, h2, h3 {
+    color: #0066cc;
+}
+
+p {
+    margin-bottom: 20px;
+}
+
+code {
+    background-color: #f4f4f4;
+    padding: 2px 4px;
+    border: 1px solid #ddd;
+    font-family: Courier, monospace;
+}
+
+pre {
+    background-color: #f4f4f4;
+    padding: 10px;
+    border: 1px solid #ddd;
+    overflow-x: auto;
+}
+
+/* Add Bootstrap CSS link */
+@import url('https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css');
