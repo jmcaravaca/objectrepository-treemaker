@@ -1,5 +1,14 @@
 import os
 
+def sanitize_path(user_input):
+    # Split the user input into components
+    path_components = user_input.split('/')
+
+    # Join the components using os.path.join() to create a platform-independent path
+    sanitized_path = os.path.join(*path_components)
+
+    return sanitized_path
+
 
 def find_xaml_files(directory: str) -> list[str]:
     xaml_files = []

@@ -1,0 +1,30 @@
+# {{ activity_name }}
+
+![{{ activity_name }}img]({{ image_path }})
+
+## Parametros
+
+Nombre Actividad: {{ activity_name }}
+
+Argumentos:
+
+{% for arg_info in argument_info %}
+* `{{ arg_info["Name"] }}` ({{ arg_info["Category"] }}): {{ arg_info["Tooltip"] }}
+{% endfor %}
+
+## Descripcion
+
+{{ tooltip }}
+
+## Test Case asociado
+
+`{{ activity_name }}_Testcase.xaml`
+
+## Object Repository
+
+
+- [{{ activity_name }}](#{{ activity_name|lower()|replace(' ', '-')|replace('[^a-zA-Z0-9]', '') }})
+  - [Parametros](#parametros)
+  - [Descripcion](#descripcion)
+  - [Test Case asociado](#test-case-asociado)
+  - [Object Repository](#object-repository)
