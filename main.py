@@ -14,7 +14,7 @@ from secret import (
     REPO_PROCESS_DIRECTORY,
     REPO_OTHER_DIRECTORY,
 )
-from filehelpers import read_html, sanitize_path
+from filehelpers import read_html, sanitize_path, read_template
 import sys, os
 from generatemd import generate_md_files
 
@@ -58,8 +58,9 @@ async def libdocsindex():
     librarydocs = Path("librarydocs") 
     folder_list = [folder.name for folder in librarydocs.iterdir() if folder.is_dir()]
     folder_list.sort()
+    template = read_template("mdindex.jinja")
     markdownindex = read_html(os.path.join("templates", "mdindex.html"))
-    index_content = markdownindex.format(file_list="".join(f'<li><a href="/librarydocs/{folder_name}">{folder_name}</a></li>' for folder_name in folder_list))
+    index_content = template.render(lib_list=folder_list)
     return HTMLResponse(content=index_content)
 
 @app.get("/librarydocs/{lib_name}", response_class=HTMLResponse)
@@ -67,8 +68,8 @@ async def libdocsindex(lib_name: str):
     markdown_folder = Path(os.path.join("librarydocs", lib_name)) #Placeholder 
     file_list = [file.stem for file in markdown_folder.glob("*.md")]
     file_list.sort()
-    markdownindex = read_html(os.path.join("templates", "mdindex.html"))
-    index_content = markdownindex.format(file_list="".join(f'<li><a href="/librarydocs/{lib_name}/{file_name}">{file_name}</a></li>' for file_name in file_list))
+    template = read_template("mdlibindex.jinja")
+    index_content = template.render(file_list=file_list, lib_name=lib_name)
     return HTMLResponse(content=index_content)
 
 @app.get("/librarydocs/{lib_name}/{file_name}", response_class=HTMLResponse)
@@ -79,13 +80,13 @@ async def read_markdown(file_name: str, lib_name: str):
     with open(markdown_file_path, "r", encoding="utf-8") as file:
         markdown_content = file.read()
     html_content = markdown2.markdown(markdown_content)
-    markdown_template = read_html(os.path.join("templates","markdown_template.html"))
-    html_content_with_styles = markdown_template.format(html_content=html_content)
-    return HTMLResponse(content=html_content_with_styles)
+    template = read_template("mdfile.jinja")
+    index_content = template.render(html_content=html_content)
+    return HTMLResponse(content=index_content)
 
 
 
-@app.get("/librarydocs/{file_name}", response_class=HTMLResponse)
+@app.post("/db/startdb", response_class=HTMLResponse)
 def init_db(delete: str = "no"):
     if delete == "yes":
         os.remove("uidata.db")

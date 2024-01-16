@@ -1,4 +1,4 @@
-<!-- index_template.html -->
+<!-- mdindex.html -->
 <html>
     <head>
         <title>Markdown Files Index</title>
@@ -6,9 +6,11 @@
     </head>
     <body>
         <div class="container">
-            <h1 class="mt-4 mb-4">Markdown Files Index</h1>
+            <h1 class="mt-4 mb-4">Markdown Files Index for {{ lib_name }}</h1>
             <ul class="list-group">
-                {file_list}
+                {% for file_name in file_list %}
+                    <li><a href="/librarydocs/{{ lib_name }}/{{ file_name }}">{{ file_name }}</a></li>
+                {% endfor %}
             </ul>
         </div>
     </body>

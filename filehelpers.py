@@ -1,4 +1,15 @@
 import os
+from pathlib import Path
+from jinja2 import Environment, FileSystemLoader
+
+
+# Set up Jinja2 environment
+templates_path = Path("templates")
+env = Environment(loader=FileSystemLoader(str(templates_path)))
+
+def read_template(template_name):
+    template = env.get_template(template_name)
+    return template
 
 def sanitize_path(user_input):
     # Split the user input into components
