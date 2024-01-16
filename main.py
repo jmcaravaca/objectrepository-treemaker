@@ -14,7 +14,7 @@ from secret import (
     REPO_PROCESS_DIRECTORY,
     REPO_OTHER_DIRECTORY,
 )
-from filehelpers import read_template, sanitize_path
+from filehelpers import read_html, sanitize_path
 import sys, os
 from generatemd import generate_md_files
 
@@ -28,10 +28,6 @@ logger.add(sys.stderr, level="DEBUG")
 
 app = FastAPI()
 
-
-
-index_template = read_template(os.path.join("templates", "index_template.html"))
-markdown_template = read_template(os.path.join("templates","markdown_template.html"))
 
 @app.get("/", response_class=HTMLResponse)
 async def redirect_to_index():
@@ -62,7 +58,8 @@ async def libdocsindex():
     librarydocs = Path("librarydocs") 
     folder_list = [folder.name for folder in librarydocs.iterdir() if folder.is_dir()]
     folder_list.sort()
-    index_content = index_template.format(file_list="".join(f'<li><a href="/librarydocs/{folder_name}">{folder_name}</a></li>' for folder_name in folder_list))
+    markdownindex = read_html(os.path.join("templates", "mdindex.html"))
+    index_content = markdownindex.format(file_list="".join(f'<li><a href="/librarydocs/{folder_name}">{folder_name}</a></li>' for folder_name in folder_list))
     return HTMLResponse(content=index_content)
 
 @app.get("/librarydocs/{lib_name}", response_class=HTMLResponse)
@@ -70,7 +67,8 @@ async def libdocsindex(lib_name: str):
     markdown_folder = Path(os.path.join("librarydocs", lib_name)) #Placeholder 
     file_list = [file.stem for file in markdown_folder.glob("*.md")]
     file_list.sort()
-    index_content = index_template.format(file_list="".join(f'<li><a href="/librarydocs/{lib_name}/{file_name}">{file_name}</a></li>' for file_name in file_list))
+    markdownindex = read_html(os.path.join("templates", "mdindex.html"))
+    index_content = markdownindex.format(file_list="".join(f'<li><a href="/librarydocs/{lib_name}/{file_name}">{file_name}</a></li>' for file_name in file_list))
     return HTMLResponse(content=index_content)
 
 @app.get("/librarydocs/{lib_name}/{file_name}", response_class=HTMLResponse)
@@ -81,6 +79,7 @@ async def read_markdown(file_name: str, lib_name: str):
     with open(markdown_file_path, "r", encoding="utf-8") as file:
         markdown_content = file.read()
     html_content = markdown2.markdown(markdown_content)
+    markdown_template = read_html(os.path.join("templates","markdown_template.html"))
     html_content_with_styles = markdown_template.format(html_content=html_content)
     return HTMLResponse(content=html_content_with_styles)
 
