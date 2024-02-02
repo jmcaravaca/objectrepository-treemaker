@@ -1,13 +1,5 @@
 from loguru import logger
 import os
-from parsers.activities import main_activities
-from parsers.uiobjects import main_uiobjects
-from parsers.uireferences import main_uireferences
-from parsers.activityreferences import main_activityreferences
-from parsers.configs import main_configs
-from parsers.configreferences import main_configreferences
-from parsers.getrepos import clone_repos
-from db.startdb import create_db
 from secret import (
     REPO_BASE_DIRECTORY,
     REPO_LIBRARY_DIRECTORY,
