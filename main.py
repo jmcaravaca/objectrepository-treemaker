@@ -1,19 +1,13 @@
-from loguru import logger
-import os
-from secret import (
-    REPO_BASE_DIRECTORY,
-    REPO_LIBRARY_DIRECTORY,
-    REPO_PROCESS_DIRECTORY,
-    REPO_OTHER_DIRECTORY,
-)
 
-import sys, os
+import sys
 
-from fastapi import FastAPI, HTTPException
+import uvicorn
+from fastapi import FastAPI
 from fastapi.responses import HTMLResponse, RedirectResponse
-from pathlib import Path
-from routers.librarydocs import router as libdocrouter
+from loguru import logger
+
 from routers.db import router as dbrouter
+from routers.librarydocs import router as libdocrouter
 from routers.librarysync import router as libsyncrouter
 
 logger.remove()
@@ -34,3 +28,6 @@ async def redirect_to_index():
 async def index():
     return HTMLResponse(content="<html><body><h1>Index!</h1></body></html>")
 
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000, reload=True)

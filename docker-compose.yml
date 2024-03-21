@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  myservice:
+    build: .
+    ports:
+      - "host:container"
+    volumes:
+      - /host:/container
