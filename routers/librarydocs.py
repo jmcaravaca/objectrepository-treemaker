@@ -1,13 +1,14 @@
+import json
+import os
+from pathlib import Path
+
+import markdown2
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import HTMLResponse
-from pathlib import Path
-import os
-from filehelpers import sanitize_path, read_template
-import markdown2
-import json
-from jinja2 import Template, Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader, Template
 from loguru import logger
 
+from filehelpers import read_template, sanitize_path
 
 router = APIRouter()
 

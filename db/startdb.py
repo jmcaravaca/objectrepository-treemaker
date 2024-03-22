@@ -1,8 +1,8 @@
+from config.secret import DBCONNSTRING
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from db.models import UIObject, Activity, Base
-from secret import DBCONNSTRING
 
+from db.models import Activity, Base, UIObject
 
 # Create a SQLAlchemy engine and session
 engine = create_engine(DBCONNSTRING)

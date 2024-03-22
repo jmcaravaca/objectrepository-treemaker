@@ -1,9 +1,10 @@
-from loguru import logger
-from config.uipapiconfig import (
-    uipclient_libraries
-)
+import os
+import shutil
 
-import os, shutil
+from loguru import logger
+
+from config.uipapiconfig import uipclient_libraries
+
 
 def get_versions(host: str) -> list:
     """Get list of versions for libraries

@@ -1,18 +1,19 @@
+import asyncio
 from typing import Union
 
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import HTMLResponse, RedirectResponse
-import asyncio
-from config.settings import settings
-
 from loguru import logger
-from config.uipapiconfig import (
-    uipclient_folders,
-    uipclient_libraries,
-    FetchUIPathToken
-)
 
-from librarysync.helpers import clear_output, download_libs, get_versions, compare_versions, upload_libs
+from config.settings import settings
+from config.uipapiconfig import FetchUIPathToken, uipclient_folders, uipclient_libraries
+from librarysync.helpers import (
+    clear_output,
+    compare_versions,
+    download_libs,
+    get_versions,
+    upload_libs,
+)
 
 router = APIRouter()
 

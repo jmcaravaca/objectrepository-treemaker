@@ -1,24 +1,25 @@
-from loguru import logger
+import os
+from pathlib import Path
+
 from fastapi import APIRouter, HTTPException
 from fastapi.responses import HTMLResponse
-from pathlib import Path
-import os
-from filehelpers import sanitize_path
-
-from parsers.activities import main_activities
-from parsers.uiobjects import main_uiobjects
-from parsers.uireferences import main_uireferences
-from parsers.activityreferences import main_activityreferences
-from parsers.configs import main_configs
-from parsers.configreferences import main_configreferences
-from parsers.getrepos import clone_repos
-from db.startdb import create_db
-from secret import (
+from loguru import logger
+from config.secret import (
     REPO_BASE_DIRECTORY,
     REPO_LIBRARY_DIRECTORY,
-    REPO_PROCESS_DIRECTORY,
     REPO_OTHER_DIRECTORY,
+    REPO_PROCESS_DIRECTORY,
 )
+
+from db.startdb import create_db
+from filehelpers import sanitize_path
+from parsers.activities import main_activities
+from parsers.activityreferences import main_activityreferences
+from parsers.configreferences import main_configreferences
+from parsers.configs import main_configs
+from parsers.getrepos import clone_repos
+from parsers.uiobjects import main_uiobjects
+from parsers.uireferences import main_uireferences
 
 router = APIRouter()
 

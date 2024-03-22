@@ -1,18 +1,14 @@
-from azure.devops.connection import Connection
-from msrest.authentication import BasicAuthentication
-import shutil
-import git
 import os
 import re
+import shutil
+
+import git
+from azure.devops.connection import Connection
 from loguru import logger
-from secret import (
-    AZURE_ORG_URL,
-    AZURE_PAT,
-    REPO_PROCESS_DIRECTORY,
-    REPO_BASE_DIRECTORY,
-    REPO_LIBRARY_DIRECTORY,
-    REPO_OTHER_DIRECTORY,
-)
+from msrest.authentication import BasicAuthentication
+from secret import (AZURE_ORG_URL, AZURE_PAT, REPO_BASE_DIRECTORY,
+                    REPO_LIBRARY_DIRECTORY, REPO_OTHER_DIRECTORY,
+                    REPO_PROCESS_DIRECTORY)
 
 
 def clone_repos(clone_directory: str = REPO_BASE_DIRECTORY):
